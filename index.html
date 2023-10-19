@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Quiz JavaScript</title>
+    <link href="style.css" rel="stylesheet">
+  </head>
+  <body>
+    <h1>Quiz JavaScript</h1>
+    <div id="quiz-container">
+      <p id="question"></p>
+      <ul id="choices"></ul>
+    </div>
+    <p id="result"></p>
+
+    <script>
+      const questions = [
+        {
+          question:
+            "Quel est le langage de programmation principal pour les sites Web ?",
+          choices: ["Java", "Python", "JavaScript", "C++"],
+          correctAnswer: "JavaScript",
+        },
+        {
+          question:
+            "Quel est le symbole pour l'opération d'assignation en JavaScript ?",
+          choices: ["=", "==", "+", "-"],
+          correctAnswer: "=",
+        },
+        {
+          question:
+            "Quelle fonction est utilisée pour afficher du texte dans la console en JavaScript ?",
+          choices: ["print()", "console.log()", "display()", "output()"],
+          correctAnswer: "console.log()",
+        },
+      ];
+
+      let currentQuestion = 0;
+      let score = 0;
+
+      const questionElement = document.getElementById("question");
+      const choicesElement = document.getElementById("choices");
+      const resultElement = document.getElementById("result");
+
+      function loadQuestion() {
+        const current = questions[currentQuestion];
+        questionElement.textContent = current.question;
+        choicesElement.innerHTML = "";
+
+        current.choices.forEach((choice) => {
+          const li = document.createElement("li");
+          li.textContent = choice;
+          li.addEventListener("click", () => checkAnswer(choice));
+          choicesElement.appendChild(li);
+        });
+
+
+      }
+
+      function checkAnswer(choice) {
+        const current = questions[currentQuestion];
+        if (choice === current.correctAnswer) {
+          score++;
+        }
+
+        currentQuestion++;
+
+        if (currentQuestion < questions.length) {
+          loadQuestion();
+        } else {
+          showResult();
+        }
+      }
+
+      function showResult() {
+        questionElement.textContent = "";
+        choicesElement.innerHTML = "";
+        resultElement.textContent = `Vous avez obtenu ${score} sur ${questions.length} bonnes réponses.`;
+      }
+
+      loadQuestion();
+
+      submitButton.addEventListener("click", () => {
+        if (currentQuestion < questions.length) {
+          checkAnswer();
+        } else {
+          showResult();
+        }
+      });
+    </script>
+  </body>
+</html>
